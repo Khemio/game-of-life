@@ -21,7 +21,7 @@ let width = 100;
 
 let alive = 0;
 
-let cellNumber;
+let cellNumber = 15;
 let cellsLeft;
 
 let frequency = 5;
@@ -37,7 +37,6 @@ function createField() {
 
     field.style.gridTemplateColumns = `repeat(${width}, 1fr)`;
 
-    cellNumber = 5;
     cellsLeft = cellNumber;
 
     sizeDetail.innerText = `${width} X ${width}`;
@@ -49,7 +48,7 @@ function createField() {
     for(let i = 0; i < width*width; i++) {
         const box = {
             cell: null,
-            value: 0
+            // value: 0
         }
 
         const cell = document.createElement('div');
@@ -66,7 +65,10 @@ function createField() {
 function checkCells(time) {
     
 
-    intervalId = setInterval(() => {for(let i = 0; i < cells.length; i++) {
+    intervalId = setInterval(() => {
+    console.log(cells.length, width);
+
+        for(let i = 0; i < cells.length; i++) {
         let total = 0;
 
         const isLeftEdge = (i % width === 0);
@@ -144,23 +146,16 @@ function checkCells(time) {
         }
 
 
-        if(cells[i].value === 1) {
+        if(cells[i].cell.classList.contains('alive')) {
             if(total === 2 || total === 3) {
-                nextGen[i].value = 1;
                 nextGen[i].cell.classList.add('alive');
-                alive++;
             } else {
-                nextGen[i].value = 0
-                nextGen[i].cell.classList.remove('alive');
-                alive--;
+                nextGen[i].cell.classList.remove('alive');            
             }
 
         } else {
             if (total === 3) {
-                nextGen[i].value = 1;
-                nextGen[i].cell.classList.add('alive');
-                alive++;
-            }
+                nextGen[i].cell.classList.add('alive');            }
         }
     }}, time)
 
@@ -171,8 +166,7 @@ function checkCells(time) {
 function seedField(cell) {
     if(cellsLeft === 0) {
         cells.map(cell => cell.cell.removeEventListener('click', seedField));
-    } else {
-        cell.value = 1;
+    } else if(!cell.cell.classList.contains('alive')){
         cell.cell.classList.add('alive');
         cellsLeft--;
         cellsLeftDetail.innerText = `${cellsLeft}`;
@@ -187,7 +181,6 @@ function initField() {
 
 function clearField() {
     cells.map(cell => {
-        // cell.cell.classList.remove()
         field.removeChild(cell.cell)
         cell.cell = null;
         cell.value = 0;
@@ -204,20 +197,21 @@ function play() {
     initField();
 
     setFrequency.addEventListener('change', () => {
-        frequency = setFrequency.value;
+        frequency = Number(setFrequency.value);
         clearInterval(intervalId);
     })
     setSize.addEventListener('change', () => {
-        width = setSize.value;
         clearInterval(intervalId);
         intervalId = null;
         clearField();      
+        width = Number(setSize.value);
         createField();
         initField();
+        console.log(cells.length, nextGen.length)
         
     })
     setSeeds.addEventListener('change', () => {
-        cellNumber = setSeeds.value;
+        cellNumber = Number(setSeeds.value);
         cellsLeft = cellNumber;
 
         maxCellsDetail.innerText = `${cellNumber}`;
