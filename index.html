@@ -8,16 +8,37 @@
     <title>Game of Life</title>
 </head>
 <body>
+    <div class="container">
 
-    <div class="buttons">
-        <button id="start">Start</button>
-        <button id="stop">Stop</button>
-        <button id="restart">Restart</button>
-        <input type="number" id="frequency">
-        <!-- <button type="submit">Submit</button> -->
+        <div class="details">
+            <ul class="buttons">
+
+                <button id="start">Start</button>
+                <button id="stop">Stop</button>
+                <button id="restart">Restart</button>
+            </ul>
+
+            <h3>Size: <span id="size"></span></h3>
+            <h3>Max live cells: <span id="max-live"></span></h3>
+            <h3>Live cells left: <span id="cells-left"></span></h3>
+            <h3>Speed: <span id="speed"></span> ticks per second</h3>
+
+        </div>
+    
+        <div id="field"></div>
+
+        <div class="params">
+            <label for="set-frequency">Speed</label>
+            <input type="number" id="set-frequency">
+            <!-- <button type="submit">Submit</button> -->
+            <label for="set-size">Size</label>
+            <input type="number" id="set-size">
+            <!-- <button type="submit">Submit</button> -->
+            <label for="set-seeds">Seeds</label>
+            <input type="number" id="set-seeds">
+            <!-- <button type="submit">Submit</button> -->
+        </div>
     </div>
-
-    <div class="field"></div>
     
     <script src="app.js"></script>
 </body>
